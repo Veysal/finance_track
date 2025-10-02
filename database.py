@@ -12,6 +12,7 @@ class DatabaseManager:
             'password': password,
             'database': database,
         }
+        self._init_db()
 
 
     @contextmanager
@@ -31,7 +32,7 @@ class DatabaseManager:
     def _init_db(self):
         conn = mysql.connector.connect(
             host=self.db_config['host'],
-            user=self.db_config['user'],
+            user=self.db_config['flet_projects'],
             password=self.db_config['password'],
             )
         cursor= conn.cursor()
@@ -109,7 +110,7 @@ class DatabaseManager:
     def check_password(self, password, hashed):
         return bcrypt.checkpw(password.encode('utf-8'),hashed.encode('utf-8'))
 
-    def add_default_cacategories(self, user_id):
+    def add_default_categories(self, user_id):
         default_categories = ['Продукты', 'Транспорт', "Жилье", "Развлечение", "Зарплата", "Сбережения"]
         with self._db_connection() as cursor:
             for category in default_categories:
